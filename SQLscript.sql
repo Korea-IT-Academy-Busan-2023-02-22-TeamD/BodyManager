@@ -2,6 +2,8 @@ use bodymanager;
 select * from user;
 select * from mileage;
 
+
+
 SELECT
 B.board_number AS boardNumber,
 M.manager_email AS boardWriterEmail,

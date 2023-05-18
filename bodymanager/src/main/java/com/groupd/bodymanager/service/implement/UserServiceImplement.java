@@ -92,7 +92,7 @@ public class UserServiceImplement implements UserService {
             mileageRepository.save(mileageEntity);
 
 
-            body =  GetAuthResponseDto(userEntity);
+            body = new GetAuthResponseDto(userCode);
 
         } catch (Exception exception) {
             exception.printStackTrace();
