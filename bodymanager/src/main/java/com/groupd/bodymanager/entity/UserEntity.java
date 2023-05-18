@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import com.groupd.bodymanager.dto.request.user.SignInRequestDto;
 import com.groupd.bodymanager.dto.request.user.SignUpRequestDto;
 import com.groupd.bodymanager.dto.response.user.GetAuthResponseDto;
-import com.groupd.bodymanager.entity.primaryKey.userPK;
+import com.groupd.bodymanager.entity.primaryKey.UserPK;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,13 +24,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity(name = "User")
 @Table(name = "User")
-@IdClass(userPK.class)
+// @IdClass(UserPK.class)
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userCode;
-    @Id
+    // @Id
     private String userEmail;
     private String userPassword;
     private String userNickname;

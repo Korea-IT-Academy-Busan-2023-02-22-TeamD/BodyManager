@@ -19,10 +19,12 @@ import com.groupd.bodymanager.dto.request.user.SignUpRequestDto;
 import com.groupd.bodymanager.dto.response.ResponseDto;
 import com.groupd.bodymanager.dto.response.user.GetAuthResponseDto;
 import com.groupd.bodymanager.dto.response.user.GetUserResponseDto;
+import com.groupd.bodymanager.entity.BodyInfoEntity;
 import com.groupd.bodymanager.entity.ManagerEntity;
 import com.groupd.bodymanager.entity.MileageEntity;
 import com.groupd.bodymanager.entity.UserEntity;
 import com.groupd.bodymanager.provider.JwtProvider;
+import com.groupd.bodymanager.repository.BodyInfoRepository;
 import com.groupd.bodymanager.repository.ManagerRepository;
 import com.groupd.bodymanager.repository.MileageRepository;
 import com.groupd.bodymanager.repository.UserRepository;
@@ -37,7 +39,7 @@ public class UserServiceImplement implements UserService {
     private MileageRepository mileageRepository;
     private JwtProvider jwtProvider;
     private PasswordEncoder passwordEncoder;
-
+    private BodyInfoRepository bodyInfoRepository;
     @Autowired
     public UserServiceImplement(
             UserRepository userRepository,
@@ -82,6 +84,7 @@ public class UserServiceImplement implements UserService {
 
             UserEntity userEntity = new UserEntity(dto);
             userRepository.save(userEntity);
+            System.out.println(userEntity.toString());
             int userCode = userEntity.getUserCode();
 
             MileageEntity mileageEntity = new MileageEntity();
@@ -152,7 +155,7 @@ public class UserServiceImplement implements UserService {
             UserEntity userEntity = userRepository.findByUserEmail(addEmail);
             
             addCode = userEntity.getUserCode();
-            ManagerEntity managerEntity = new ManagerEntity(addCode,addEmail);
+            ManagerEntity managerEntity = new ManagerEntity(addEmail);
             managerRepository.save(managerEntity);
 
         } catch (Exception exception) {
@@ -263,21 +266,24 @@ public class UserServiceImplement implements UserService {
             // todo 로그인 상태에서 로그인된 이메일을 어떻게 가져오는지
             boolean matchId = userEmail.equals(userEmailCheck);
             if (!matchId)
-                return CustomResponse.signInFailedId();
+                return CustomResponse.signInFailed();
 
             // 로그인 실패 (패스워드 x)
             UserEntity userEntity = userRepository.findByUserEmail(userEmailCheck);
             String encordedPassword = userEntity.getUserPassword();
             boolean equaledPassword = passwordEncoder.matches(userPassword, encordedPassword);
-            ;
-            if (!equaledPassword)
-                return CustomResponse.signInFailedpassword();
-
             
+            if (!equaledPassword)
+                return CustomResponse.signInFailed();
+
+            Integer userCode = userEntity.getUserCode();
+            MileageEntity mileageEntity = mileageRepository.findByUserCode(userCode);
+            BodyInfoEntity bodyInfoEntity = bodyInfoRepository.findByUserCode(userCode);
             // String jwt = jwtProvider.create(userEmail);
 
             // body = new GetAuthResponseDto(jwt, userCode);
-
+            bodyInfoRepository.delete(bodyInfoEntity);
+            mileageRepository.delete(mileageEntity);
             userRepository.delete(userEntity);
 
         } catch (Exception exception) {

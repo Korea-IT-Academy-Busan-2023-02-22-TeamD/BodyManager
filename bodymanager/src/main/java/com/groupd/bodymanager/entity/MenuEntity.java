@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.groupd.bodymanager.dto.request.menu.MenuRequestDto;
+// import com.groupd.bodymanager.dto.request.menu.MenuRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,10 +18,9 @@ import lombok.NoArgsConstructor;
 public class MenuEntity {
     @Id
     private String menuCode;
-    private String menuName;
-    public MenuEntity(MenuRequestDto dto) {
-        this.menuCode = dto.getMenuCode();
-
-    }
+  
+    // public MenuEntity(MenuRequestDto dto) {
+    //     this.menuCode = dto.getMenuCode();
+    // }
     
 }

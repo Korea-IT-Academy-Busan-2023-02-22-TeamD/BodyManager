@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,21 +16,20 @@ import com.groupd.bodymanager.dto.response.ResponseDto;
 import com.groupd.bodymanager.dto.response.menu.GetMenuDetailListResponseDto;
 import com.groupd.bodymanager.service.MenuService;
 
+import lombok.RequiredArgsConstructor;
+
 
 
 @RestController
 @RequestMapping("/api/v1/menu")
+@RequiredArgsConstructor
 public class MenuController {
 
-    private MenuService menuService;
+    private final MenuService menuService;
 
-    @Autowired
-    public MenuController(MenuService menuService) {
-        menuService = this.menuService;
-    }
     
     
-    // 1. 유저코드와 메뉴코드를 등록
+    //*1.유저코드와 메뉴코드를 등록 */
     @PostMapping("")
     public ResponseEntity<ResponseDto> postMenuCodeAndUserCode(
         @Valid @RequestBody MenuRequestDto requestBody
@@ -39,11 +39,11 @@ public class MenuController {
         }
 
     //*2.식단 리스트를 조회 */
-    @GetMapping("/menuList")
+    @GetMapping("/{userCode}")
     public ResponseEntity<? super GetMenuDetailListResponseDto> getMenuDetailList(
-        @Valid @RequestBody MenuRequestDto requestBody
+        @PathVariable("userCode") Integer userCode
     ) {
-        ResponseEntity<? super GetMenuDetailListResponseDto> response = menuService.getMenuDetailList(requestBody);
+        ResponseEntity<? super GetMenuDetailListResponseDto> response = menuService.getMenuDetailList(userCode);
         return response;
     }
 

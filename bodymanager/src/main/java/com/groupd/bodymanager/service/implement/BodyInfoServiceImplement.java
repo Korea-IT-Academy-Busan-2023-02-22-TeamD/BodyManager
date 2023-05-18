@@ -1,5 +1,7 @@
 package com.groupd.bodymanager.service.implement;
 
+import java.text.DecimalFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,21 +46,23 @@ public class BodyInfoServiceImplement implements BodyInfoService {
             double heightForBmiIndex = dto.getHeight()/100 ;
             double weightForBmiIndex = dto.getWeight();
             double calculateForBmiIndex = weightForBmiIndex/(heightForBmiIndex*heightForBmiIndex);
+            double test1 = Math.round(calculateForBmiIndex);
             BodyInfoEntity bodyInfoEntity = new BodyInfoEntity(dto);
-            bodyInfoEntity.setBmiIndex(calculateForBmiIndex);
+            bodyInfoEntity.setBmiIndex(test1);
             Double bmiReult = bodyInfoEntity.getBmiIndex();
-            if(!(bmiReult <= 18.5 )) {
-                if(!(bmiReult <= 22.9)){
-                    if(!(bmiReult <= 24.9) ){
-                        if(25.0 <= bmiReult) {
-                            bodyInfoEntity.setBmiResult("비만");
-                        }
-                        bodyInfoEntity.setBmiResult("과체중");
-                    }
-                     bodyInfoEntity.setBmiResult("정상");
-                    }
-                 bodyInfoEntity.setBmiResult("저체중");
-                }                               
+            if(bmiReult <= 18.5 ) {
+                bodyInfoEntity.setBmiResult("저체중");
+            }
+            else if(bmiReult <= 22.9){
+                bodyInfoEntity.setBmiResult("정상");
+            }
+            else if(bmiReult <= 24.9){
+                bodyInfoEntity.setBmiResult("과체중");
+            }
+            else{
+                bodyInfoEntity.setBmiResult("비만");
+            }
+                              
             bodyInfoRepository.save(bodyInfoEntity);
 
             body = new ResponseDto("SU", "Success");
@@ -105,7 +109,6 @@ public class BodyInfoServiceImplement implements BodyInfoService {
 
     public ResponseEntity<ResponseDto> patchBodyInfo(PatchBodyInfoRequestDto dto) {
 
-        ResponseDto body = null;
         int userCode = dto.getUserCode();
         double height = dto.getHeight();
         double weight = dto.getWeight();
@@ -125,12 +128,32 @@ public class BodyInfoServiceImplement implements BodyInfoService {
             bodyInfoEntity.setFatRate(fatRate);
             bodyInfoRepository.save(bodyInfoEntity);
 
+            double heightForBmiIndex = dto.getHeight()/100 ;
+            double weightForBmiIndex = dto.getWeight();
+            double calculateForBmiIndex = weightForBmiIndex/(heightForBmiIndex*heightForBmiIndex);
+            double test1 = Math.round(calculateForBmiIndex);
+            bodyInfoEntity.setBmiIndex(test1);
+            Double bmiReult = bodyInfoEntity.getBmiIndex();
+            if(bmiReult <= 18.5 ) {
+                bodyInfoEntity.setBmiResult("저체중");
+            }
+            else if(bmiReult <= 22.9){
+                bodyInfoEntity.setBmiResult("정상");
+            }
+            else if(bmiReult <= 24.9){
+                bodyInfoEntity.setBmiResult("과체중");
+            }
+            else{
+                bodyInfoEntity.setBmiResult("비만");
+            }
+            bodyInfoRepository.save(bodyInfoEntity);
+                
         } catch (Exception exception) {
             exception.printStackTrace();
             return CustomResponse.databaseError();
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(body);
+        return CustomResponse.successs();
     }
 
 }

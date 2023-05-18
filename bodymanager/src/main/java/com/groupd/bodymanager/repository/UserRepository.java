@@ -4,8 +4,9 @@ import org.springframework.stereotype.Repository;
 
 import com.groupd.bodymanager.entity.UserEntity;
 import com.groupd.bodymanager.entity.UserMenuSelect;
+import com.groupd.bodymanager.entity.primaryKey.UserPK;
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, String>{
+public interface UserRepository extends JpaRepository<UserEntity, Integer>{
 
     public boolean existsByUserEmail(String email);
     public boolean existsByUserNickname(String nickName);

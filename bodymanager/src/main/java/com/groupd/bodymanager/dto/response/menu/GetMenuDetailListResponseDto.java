@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class GetMenuDetailListResponseDto extends ResponseDto {
     private int userCode;
     private String menuCode;
-    private String menuName;
+
     private List<MenuDetail> menuDetailList;
 
     public GetMenuDetailListResponseDto(List<MenuListResultSet> resultSet,MenuEntity menuEntity,UserMenuSelect userMenuSelect){
@@ -31,7 +31,7 @@ public class GetMenuDetailListResponseDto extends ResponseDto {
             menuDetailList.add(menuDetail);
         }
         this.menuDetailList = menuDetailList;
-        this.menuName = menuEntity.getMenuName();
+        
         this.userCode = userMenuSelect.getUserCode();
         this.menuCode = menuEntity.getMenuCode();
     }
@@ -43,7 +43,6 @@ public class GetMenuDetailListResponseDto extends ResponseDto {
 @NoArgsConstructor
 class MenuDetail {
     
-    private String menuCode;
     private String time;
     private String monday;
     private String tuesday;
@@ -54,7 +53,6 @@ class MenuDetail {
     private String sunday;
   
     public MenuDetail(MenuListResultSet resultSet){
-        this.menuCode = resultSet.getMenuCode();
         this.time = resultSet.getTime();
         this.monday = resultSet.getMonday();
         this.tuesday = resultSet.getTuesday();

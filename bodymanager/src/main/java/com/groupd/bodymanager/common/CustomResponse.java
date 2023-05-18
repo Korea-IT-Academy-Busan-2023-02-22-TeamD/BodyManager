@@ -66,16 +66,7 @@ public class CustomResponse {
         ResponseDto errorBody = new ResponseDto("SF", "Sign In Failed");
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorBody);
     }
-    public static ResponseEntity<ResponseDto> signInFailedId() {
-
-        ResponseDto errorBody = new ResponseDto("SF", "이메일");
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorBody);
-    }
-    public static ResponseEntity<ResponseDto> signInFailedpassword() {
-
-        ResponseDto errorBody = new ResponseDto("SF", "비번");
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorBody);
-    }
+  
     public static ResponseEntity<ResponseDto> noneMatchedPassword(){
         ResponseDto errorBody = new ResponseDto("NM", "None Matched New Password with New PasswordCheck");
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorBody);
@@ -83,6 +74,11 @@ public class CustomResponse {
 
     public static ResponseEntity<ResponseDto> notExistUserEmail() {
         ResponseDto errorBody = new ResponseDto("NU", "Non-Existent User Email");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorBody);
+    }
+
+    public static ResponseEntity<ResponseDto> equalMenuCode() {
+        ResponseDto errorBody = new ResponseDto("EM", "Adjusted MenuCode Equal Current MenuCode");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorBody);
     }
 

@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import lombok.Data;
 
 @Data
-public class selectPK implements Serializable{
+public class SelectPK implements Serializable{
     @Column(name ="user_code")
     private int userCode;
     @Column(name ="menu_code")

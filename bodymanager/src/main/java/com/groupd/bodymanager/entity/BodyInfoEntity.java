@@ -1,5 +1,8 @@
 package com.groupd.bodymanager.entity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -37,11 +40,17 @@ public class BodyInfoEntity {
     private String bmiResult;
 
     public BodyInfoEntity(PostBodyInfoRequestDto dto) {
+        Date now = new Date();
+        SimpleDateFormat simpleDateFormat = 
+            new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String recordDate = simpleDateFormat.format(now);
+
         this.userCode = dto.getUserCode();
         this.height = dto.getHeight();
         this.weight = dto.getWeight();
         this.muscleMass = dto.getMuscleMass();
         this.fatRate = dto.getFatRate();
+        this.recordDate = recordDate;
 
     }
 
